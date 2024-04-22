@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
@@ -12,14 +13,18 @@ class AuthController extends Controller
 {
     public function dashboard()
     {
-        $user = Auth::user();
+        try {
+            $user = Auth::user();
 
-        if ($user->hasRole('admin')) {
-            return response()->json(['message' => 'Halo Admin!']);
-        } elseif ($user->hasRole('user')) {
-            return response()->json(['message' => 'Halo User!']);
-        } else {
-            return response()->json(['message' => 'Halo!']);
+            if ($user->hasRole('admin')) {
+                return response()->json(['message' => 'Halo Admin!']);
+            } elseif ($user->hasRole('user')) {
+                return response()->json(['message' => 'Halo User!']);
+            } else {
+                return response()->json(['message' => 'Halo!']);
+            }
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
         }
     }
 
@@ -91,11 +96,22 @@ class AuthController extends Controller
 
     public function me()
     {
-        $data = [
-            'data_user' => auth()->user(),
-            'role' => Auth::user()->getRoleNames()
-        ];
-        return response()->json($data);
+        try {
+            if (auth()->check()) {
+                $data = [
+                    'data_user' => auth()->user(),
+                    'role' => Auth::user()->getRoleNames()
+                ];
+                return response()->json($data);
+            } else {
+                return response()->json(['error' => 'Anda belum login'], 401);
+            }
+        } catch (Exception $e) {
+            return response()->json([
+                'message' => 'error',
+                'error' => $e
+            ]);
+        }
     }
 
     public function logout()
