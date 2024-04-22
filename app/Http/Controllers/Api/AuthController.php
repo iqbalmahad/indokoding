@@ -10,6 +10,19 @@ use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
+    public function dashboard()
+    {
+        $user = Auth::user();
+
+        if ($user->hasRole('admin')) {
+            return response()->json(['message' => 'Halo Admin!']);
+        } elseif ($user->hasRole('user')) {
+            return response()->json(['message' => 'Halo User!']);
+        } else {
+            return response()->json(['message' => 'Halo!']);
+        }
+    }
+
     public function login(Request $request)
     {
         try {
@@ -34,13 +47,11 @@ class AuthController extends Controller
                 return response()->json(['error' => 'Email atau password salah.'], 401);
             }
 
-            // Kode lainnya setelah autentikasi berhasil
             $user = Auth::guard('api')->user();
             $userInfo = [
                 'id' => $user->id,
                 'name' => $user->name,
                 'email' => $user->email,
-                // Informasi lain yang ingin Anda sertakan dalam respons
             ];
 
             return response()->json(['token' => $token, 'user' => $userInfo]);
