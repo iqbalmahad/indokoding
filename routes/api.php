@@ -18,7 +18,7 @@ use PhpParser\Node\Stmt\Return_;
 
 
 Route::post('login', [AuthController::class, 'login'])->name('login');
-Route::post('register', [AuthController::class, 'register']);
+Route::post('register', [AuthController::class, 'register'])->name('register');
 
 
 Route::group(['middleware' => 'auth:api'], function () {
