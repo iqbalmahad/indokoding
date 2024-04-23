@@ -17,7 +17,7 @@ use PhpParser\Node\Stmt\Return_;
 */
 
 
-Route::post('login', [AuthController::class, 'login']);
+Route::post('login', [AuthController::class, 'login'])->name('login');
 Route::post('register', [AuthController::class, 'register']);
 
 
