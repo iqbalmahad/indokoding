@@ -21,4 +21,9 @@ class ParentPost extends Model
     // {
     //     return $this->belongsTo(Category::class);
     // }
+
+    public function childposts()
+    {
+        return $this->hasMany(Childpost::class, 'parent_post_uuid', 'uuid');
+    }
 }

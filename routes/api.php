@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use PhpParser\Node\Stmt\Return_;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\ChildPostController;
 use App\Http\Controllers\Api\ParentPostController;
 
 /*
@@ -34,3 +35,10 @@ Route::get('/parentposts/{uuid}', [ParentPostController::class, 'show']);
 Route::get('/parentposts/{uuid}/edit', [ParentPostController::class, 'edit']);
 Route::put('/parentposts/{uuid}', [ParentPostController::class, 'update']);
 Route::delete('/parentposts/{uuid}', [ParentPostController::class, 'destroy']);
+
+
+Route::get('/childposts', [ChildPostController::class, 'index']);
+Route::post('/childposts', [ChildPostController::class, 'store']);
+Route::get('/childposts/{uuid}', [ChildPostController::class, 'show']);
+Route::put('/childposts/{uuid}', [ChildPostController::class, 'update']);
+Route::delete('/childposts/{uuid}', [ChildPostController::class, 'destroy']);
