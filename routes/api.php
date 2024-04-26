@@ -1,9 +1,10 @@
 <?php
 
-use App\Http\Controllers\Api\AuthController;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
 use PhpParser\Node\Stmt\Return_;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\ParentPostController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,3 +27,10 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('dashboard', [AuthController::class, 'dashboard']);
     Route::post('logout', [AuthController::class, 'logout']);
 });
+
+Route::get('/parentposts', [ParentPostController::class, 'index']);
+Route::post('/parentposts', [ParentPostController::class, 'store']);
+Route::get('/parentposts/{uuid}', [ParentPostController::class, 'show']);
+Route::get('/parentposts/{uuid}/edit', [ParentPostController::class, 'edit']);
+Route::put('/parentposts/{uuid}', [ParentPostController::class, 'update']);
+Route::delete('/parentposts/{uuid}', [ParentPostController::class, 'destroy']);
