@@ -86,12 +86,24 @@ class CategoryController extends Controller
 
     public function destroy($uuid)
     {
-        $deleted = DB::table('categories')->delete($uuid);
+        try {
+            // Periksa apakah ada parent_posts yang terkait dengan kategori yang akan dihapus
+            $parentPostsExist = DB::table('parent_posts')->where('category_uuid', $uuid)->exists();
 
-        if ($deleted) {
-            return response()->json(['message' => 'Category deleted successfully'], 200);
+            if ($parentPostsExist) {
+                return response()->json(['error' => 'Cannot delete category, it is still related to parentposts'], 400);
+            }
+
+            // Jika tidak ada parent_posts yang terkait, lanjutkan untuk menghapus kategori
+            $deleted = DB::table('categories')->where('uuid', $uuid)->delete();
+
+            if ($deleted) {
+                return response()->json(['message' => 'Category deleted successfully'], 200);
+            } else {
+                return response()->json(['error' => 'Category not found'], 404);
+            }
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
         }
-
-        return response()->json(['error' => 'Category not found'], 404);
     }
 }

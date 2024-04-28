@@ -15,8 +15,13 @@ class ParentPostController extends Controller
     public function index()
     {
         try {
-            $parent_posts = DB::table('parent_posts')->get();
-            return response()->json($parent_posts);
+            $parentPosts = DB::table('parent_posts')
+                ->select('parent_posts.*', 'child_posts.judul as child_judul')
+                ->leftJoin('child_post_parent_post', 'parent_posts.uuid', '=', 'child_post_parent_post.parent_post_uuid')
+                ->leftJoin('child_posts', 'child_post_parent_post.child_post_uuid', '=', 'child_posts.uuid')
+                ->get();
+
+            return response()->json($parentPosts);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
@@ -73,13 +78,18 @@ class ParentPostController extends Controller
     public function show($slug)
     {
         try {
-            $parentpost = DB::table('parent_posts')->where('slug', $slug)->first();
+            $parentPost = DB::table('parent_posts')
+                ->select('parent_posts.*', 'child_posts.judul as child_judul')
+                ->leftJoin('child_post_parent_post', 'parent_posts.uuid', '=', 'child_post_parent_post.parent_post_uuid')
+                ->leftJoin('child_posts', 'child_post_parent_post.child_post_uuid', '=', 'child_posts.uuid')
+                ->where('parent_posts.slug', $slug)
+                ->first();
 
-            if (!$parentpost) {
+            if (!$parentPost) {
                 return response()->json(['error' => 'Parentpost not found'], 404);
             }
 
-            return response()->json($parentpost);
+            return response()->json($parentPost);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
@@ -161,9 +171,6 @@ class ParentPostController extends Controller
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
-
-
-
 
     public function destroy($uuid)
     {

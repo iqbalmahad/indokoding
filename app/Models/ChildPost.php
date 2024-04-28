@@ -10,11 +10,11 @@ class ChildPost extends Model
     use HasFactory;
 
     protected $fillable = [
-        'slug', 'judul', 'konten', 'tanggal', 'gambar', 'author', 'parent_post_uuid'
+        'uuid', 'slug', 'judul', 'konten', 'tanggal', 'gambar', 'author', 'parent_post_uuid'
     ];
 
-    public function parentpost()
+    public function parentPost()
     {
-        return $this->belongsTo(Parentpost::class, 'parent_post_uuid', 'uuid');
+        return $this->belongsToMany(ParentPost::class);
     }
 }
