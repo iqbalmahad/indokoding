@@ -13,8 +13,12 @@ class ChildPostController extends Controller
 {
     public function index()
     {
-        $childposts = DB::table('child_posts')->get();
-        return response()->json($childposts);
+        $childPosts = DB::table('child_posts')
+            ->select('child_posts.*', 'parent_posts.judul as parent_judul')
+            ->leftJoin('child_post_parent_post', 'child_posts.uuid', '=', 'child_post_parent_post.child_post_uuid')
+            ->leftJoin('parent_posts', 'child_post_parent_post.parent_post_uuid', '=', 'parent_posts.uuid')
+            ->get();
+        return response()->json($childPosts);
     }
 
     public function store(Request $request)
@@ -65,9 +69,9 @@ class ChildPostController extends Controller
             ]);
 
             // Mengambil data berdasarkan slug setelah menyimpan
-            $childpost = DB::table('child_posts')->where('slug', $request->slug)->first();
+            $childPost = DB::table('child_posts')->where('slug', $request->slug)->first();
 
-            return response()->json(['message' => 'Childpost created successfully', 'data' => $childpost]);
+            return response()->json(['message' => 'Childpost created successfully', 'data' => $childPost]);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
@@ -76,11 +80,16 @@ class ChildPostController extends Controller
 
     public function show($slug)
     {
-        $childpost = DB::table('child_posts')->where('slug', $slug)->first();
-        if (!$childpost) {
+        $childPost = DB::table('child_posts')
+            ->select('child_posts.*', 'parent_posts.judul as parent_judul')
+            ->leftJoin('child_post_parent_post', 'child_posts.uuid', '=', 'child_post_parent_post.child_post_uuid')
+            ->leftJoin('parent_posts', 'child_post_parent_post.parent_post_uuid', '=', 'parent_posts.uuid')
+            ->where('child_posts.slug', $slug)
+            ->first();
+        if (!$childPost) {
             return response()->json(['error' => 'Childpost not found'], 404);
         }
-        return response()->json($childpost);
+        return response()->json($childPost);
     }
 
     public function update(Request $request, $uuid)
@@ -107,8 +116,8 @@ class ChildPostController extends Controller
         }
 
         try {
-            $childpost = DB::table('child_posts')->where('uuid', $uuid)->first();
-            if (!$childpost) {
+            $childPost = DB::table('child_posts')->where('uuid', $uuid)->first();
+            if (!$childPost) {
                 return response()->json(['error' => 'Childpost not found'], 404);
             }
 
@@ -141,8 +150,8 @@ class ChildPostController extends Controller
 
     public function destroy($uuid)
     {
-        $childpost = DB::table('child_posts')->where('uuid', $uuid)->first();
-        if (!$childpost) {
+        $childPost = DB::table('child_posts')->where('uuid', $uuid)->first();
+        if (!$childPost) {
             return response()->json(['error' => 'Childpost not found'], 404);
         }
 

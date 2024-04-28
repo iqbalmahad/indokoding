@@ -15,8 +15,13 @@ class ParentPostController extends Controller
     public function index()
     {
         try {
-            $parent_posts = DB::table('parent_posts')->get();
-            return response()->json($parent_posts);
+            $parentPosts = DB::table('parent_posts')
+                ->select('parent_posts.*', 'child_posts.judul as child_judul')
+                ->leftJoin('child_post_parent_post', 'parent_posts.uuid', '=', 'child_post_parent_post.parent_post_uuid')
+                ->leftJoin('child_posts', 'child_post_parent_post.child_post_uuid', '=', 'child_posts.uuid')
+                ->get();
+
+            return response()->json($parentPosts);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
@@ -28,7 +33,7 @@ class ParentPostController extends Controller
             'slug' => 'required|string|max:255|unique:parent_posts',
             'judul' => 'required|string|max:255',
             'img' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Menambah validasi untuk gambar
-            'category_id' => 'required', //required|exists:categories,id nanti ganti pake ini
+            'category_uuid' => 'required|exists:categories,uuid',
         ], [
             'slug.required' => 'Slug harus diisi.',
             'slug.unique' => 'Slug sudah digunakan.',
@@ -37,8 +42,8 @@ class ParentPostController extends Controller
             'img.image' => 'File harus berupa gambar.',
             'img.mimes' => 'Format gambar yang diterima adalah jpeg, png, jpg, atau gif.',
             'img.max' => 'Ukuran gambar maksimum adalah 2MB.',
-            // 'category_id.required' => 'Kategori harus dipilih.',
-            // 'category_id.exists' => 'Kategori tidak valid.',
+            'category_uuid.required' => 'Kategori harus dipilih.',
+            'category_uuid.exists' => 'Kategori tidak valid.',
         ]);
 
         if ($validator->fails()) {
@@ -57,7 +62,7 @@ class ParentPostController extends Controller
                 'slug' => $request->slug,
                 'judul' => $request->judul,
                 'image_path' => $imageUrl, // Simpan URL gambar
-                'category_id' => $request->category_id,
+                'category_uuid' => $request->category_uuid,
             ]);
 
             // Mengambil data berdasarkan slug setelah menyimpan
@@ -73,13 +78,18 @@ class ParentPostController extends Controller
     public function show($slug)
     {
         try {
-            $parentpost = DB::table('parent_posts')->where('slug', $slug)->first();
+            $parentPost = DB::table('parent_posts')
+                ->select('parent_posts.*', 'child_posts.judul as child_judul')
+                ->leftJoin('child_post_parent_post', 'parent_posts.uuid', '=', 'child_post_parent_post.parent_post_uuid')
+                ->leftJoin('child_posts', 'child_post_parent_post.child_post_uuid', '=', 'child_posts.uuid')
+                ->where('parent_posts.slug', $slug)
+                ->first();
 
-            if (!$parentpost) {
+            if (!$parentPost) {
                 return response()->json(['error' => 'Parentpost not found'], 404);
             }
 
-            return response()->json($parentpost);
+            return response()->json($parentPost);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
@@ -112,7 +122,7 @@ class ParentPostController extends Controller
             ],
             'judul' => 'required|string|max:255',
             'img' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Menambah validasi untuk gambar
-            'category_id' => 'required', //required|exists:categories,id nanti ganti pake ini
+            'category_uuid' => 'required|exists:categories,uuid',
         ], [
             'slug.required' => 'Slug harus diisi.',
             'slug.unique' => 'Slug sudah digunakan.',
@@ -120,8 +130,8 @@ class ParentPostController extends Controller
             'img.image' => 'File harus berupa gambar.',
             'img.mimes' => 'Format gambar yang diterima adalah jpeg, png, jpg, atau gif.',
             'img.max' => 'Ukuran gambar maksimum adalah 2MB.',
-            // 'category_id.required' => 'Kategori harus dipilih.',
-            // 'category_id.exists' => 'Kategori tidak valid.',
+            'category_uuid.required' => 'Kategori harus dipilih.',
+            'category_uuid.exists' => 'Kategori tidak valid.',
         ]);
 
         if ($validator->fails()) {
@@ -139,7 +149,7 @@ class ParentPostController extends Controller
             $dataToUpdate = [
                 'slug' => $request->slug,
                 'judul' => $request->judul,
-                'category_id' => $request->category_id,
+                'category_uuid' => $request->category_uuid,
             ];
 
             // Jika ada gambar yang diunggah, update juga URL gambar
@@ -161,9 +171,6 @@ class ParentPostController extends Controller
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
-
-
-
 
     public function destroy($uuid)
     {

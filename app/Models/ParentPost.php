@@ -17,13 +17,13 @@ class ParentPost extends Model
     ];
 
     // Jangan lupa melakukan relasi ini
-    // public function category()
-    // {
-    //     return $this->belongsTo(Category::class);
-    // }
-
-    public function childposts()
+    public function category()
     {
-        return $this->hasMany(Childpost::class, 'parent_post_uuid', 'uuid');
+        return $this->belongsTo(Category::class);
+    }
+
+    public function childPost()
+    {
+        return $this->belongsToMany(Childpost::class);
     }
 }

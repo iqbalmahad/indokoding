@@ -15,9 +15,9 @@ return new class extends Migration
             $table->uuid('uuid')->primary();
             $table->string('slug')->unique();
             $table->string('judul');
-            $table->unsignedBigInteger('category_id');
-            // $table->foreign('category_id')->references('id')->on('categories');
             $table->string('image_path')->nullable();
+            $table->uuid('category_uuid');
+            $table->foreign('category_uuid')->references('uuid')->on('categories');
             $table->timestamps();
         });
     }

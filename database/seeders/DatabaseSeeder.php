@@ -20,5 +20,9 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         $this->call(RoleSeeder::class);
+        $this->call(CategorySeeder::class);
+        $this->call(ParentPostSeeder::class);
+        $this->call(ChildPostSeeder::class);
+        $this->call(ChildPostParentPostSeeder::class);
     }
 }
