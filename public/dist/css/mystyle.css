@@ -1,0 +1,31 @@
+/*--------------------------------------------------------------
+# Page Title
+--------------------------------------------------------------*/
+.pagetitle {
+    margin-bottom: 10px;
+}
+
+.pagetitle h1 {
+    font-size: 24px;
+    margin-bottom: 0;
+    font-weight: 600;
+    color: #012970;
+}
+
+.pagetitle .breadcrumb {
+    background-color: transparent;
+    padding-left: 0;
+}
+
+.pagetitle .breadcrumb .breadcrumb-item a{
+    color: inherit; /* Mengambil warna teks dari parent element */
+    text-decoration: none; /* Menghilangkan garis bawah (underline) */
+}
+
+.pagetitle .breadcrumb .breadcrumb-item a:hover{
+    font-weight: bold;
+}
+
+/*--------------------------------------------------------------
+# end Page Title
+--------------------------------------------------------------*/

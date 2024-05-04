@@ -1,0 +1,171 @@
+body{
+    font-family: 'Montserrat', sans-serif; /* Menggunakan font Montserrat */
+    background-color: #f3f3f3; /* Warna background putih */
+}
+
+.navbar{
+    position: sticky;
+    top: 0;
+    z-index: 600;
+}
+.navbar-gojek {
+    background-color: #ffffff; /* Warna background putih */
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); /* Shadow */
+}
+.navbar-brand {
+    height:50px;
+}
+.nav-link {
+    font-weight: 600; /* Regular */
+    color: #00AA13; /* Warna hijau Gojek */
+}
+.nav-link:hover {
+    color: #008e0e; /* Warna hijau Gojek saat dihover */
+}
+
+.jumbotron {
+    background-color: #E5F6E7; /* Warna latar jumbotron */
+    padding-top: 3rem; /* Padding 3rem */
+    padding-bottom: 3rem; /* Padding 3rem */
+    margin-bottom: 2rem; /* Margin bawah 2rem */
+    text-align: center; /* Teks rata tengah */
+}
+.jumbotron h1,
+.jumbotron p {
+    color: #343a40; /* Warna teks */
+}
+
+.jumbotron .navbar-brand {
+    height:100px;
+}
+
+/* Display untuk layar besar (desktop) */
+@media (min-width: 992px) {
+    .jumbotron .navbar-brand {
+        height: 100px; /* Tinggi untuk desktop */
+    }
+}
+
+/* Display untuk layar menengah (tablet) */
+@media (min-width: 768px) and (max-width: 991.98px) {
+    .jumbotron .navbar-brand {
+        height: 80px; /* Tinggi untuk tablet */
+    }
+}
+
+/* Display untuk layar kecil (mobile) */
+@media (max-width: 767.98px) {
+    .jumbotron .navbar-brand {
+        height: 60px; /* Tinggi untuk mobile */
+    }
+}
+
+
+.btn-primary {
+    color: #fff; /* Warna teks tombol */
+    background-color: #007bff; /* Warna latar tombol */
+    border-color: #007bff; /* Warna border tombol */
+}
+.btn-primary:hover {
+    background-color: #0056b3; /* Warna latar tombol saat dihover */
+    border-color: #0056b3; /* Warna border tombol saat dihover */
+}
+
+.btn-gojek {
+    align-items: center;
+    justify-content: center;
+    background-color: #ffffff;
+    font-weight: 600; /* Regular */
+    color: #00AA13;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-gojek:hover {
+    color: #ffffff;
+    background-color: #00AA13; /* Warna hijau Gojek saat dihover */
+}
+
+#card-artikel .card .card-body a{
+    font-weight: 600; /* Regular */
+    color: #000000; /* Warna hijau Gojek */
+}
+
+
+.divider {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.divider span {
+    display: block;
+    height: 1px;
+    background-color: #42B549; /* Warna hijau untuk divider */
+    width: 60px;
+}
+
+.link-artikel-konten{
+    border-radius: .25rem;
+    background-color: #f1f1f1;
+    color: rgb(128, 128, 128);
+    padding-top: .5rem; /* Padding atas 1 rem */
+    padding-bottom: .5rem; /* Padding bawah 2 rem */
+    padding-right: 1rem; /* Padding kanan 1 rem */
+    padding-left: 1rem; /* Padding kiri 0.5 rem */
+}
+
+.seri-artikel a{
+    display: block;
+    text-decoration: none;
+}
+
+.seri-artikel a:hover{
+    color: rgb(128, 128, 128);
+}
+
+.seri-artikel a{
+    line-height: 24px;
+    margin-bottom: 10px;
+}
+
+.link-artikel-konten.active {
+    background-color: #42B549;
+    color: white !important;
+}
+
+#sidebar-kategori{
+    position: sticky;
+    top: 90px;
+    z-index: 500;
+}
+
+@media (max-width: 576px) {
+    #sidebar-kategori {
+        position: static; /* Nonaktifkan sticky untuk perangkat selain smartphone */
+        top: auto;
+        z-index: auto;
+    }
+}
+
+#sidebar-kategori .btn{
+    margin-bottom: .5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#sidebar-kategori a{
+    text-decoration: none;
+    color: #000000;
+}
+
+#tags a{
+    text-decoration: none;
+    color: #ffffff;
+}
+
+/* sidebar */
+
+/* sidebar */
