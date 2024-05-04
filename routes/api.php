@@ -8,7 +8,7 @@ use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\ChildPostController;
 use App\Http\Controllers\Api\ParentPostController;
 use App\Http\Controllers\Api\Guest\GuestController;
-use App\Http\Controllers\ChildPostParentPostController;
+use App\Http\Controllers\Api\ChildPostParentPostController;
 
 /*
 |--------------------------------------------------------------------------
